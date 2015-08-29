@@ -12,9 +12,9 @@
 #define min(a,b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
 #endif
 
-const char key[] = "<key>";       // Replace with your M2X user account master key
-const char feed[] = "<feed>";     // Replace with your blueprint feed ID
-const char stream[] = "<stream>"; // Replace with your stream name
+char deviceId[] = "<device id>"; // Device you want to push to
+char streamName[] = "<stream name>"; // Stream you want to push to
+char m2xKey[] = "<m2x api key>"; // Your M2X API Key or Master API Key
 
 int main()
 {
@@ -30,7 +30,7 @@ int main()
 
     // Initialize the M2X client
     Client client;
-    M2XStreamClient m2xClient(&client, key);
+    M2XStreamClient m2xClient(&client, m2xKey);
     int ret;
 
     // Create an accelerometer instance
@@ -58,9 +58,9 @@ int main()
         // If the maximum title is over 20 degrees, then send
         // data to stream
         if (maxTilt > 20) {
-            ret = m2xClient.post(feed, stream, maxTilt);
+            ret = m2xClient.updateStreamValue(deviceId, streamName, maxTilt);
             printf("send() returned %d\r\n", ret);
-            // wait(0.5);
+            wait(0.5);
         }
     }
 }
