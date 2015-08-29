@@ -60,7 +60,7 @@ int main()
         if (maxTilt > 20) {
             ret = m2xClient.updateStreamValue(deviceId, streamName, maxTilt);
             printf("send() returned %d\r\n", ret);
-            wait(0.5);
+            wait(1.0);
         }
     }
 }
