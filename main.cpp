@@ -2,6 +2,7 @@
 #include "FXOS8700Q.h"
 #include "M2XStreamClient.h"
 #include "EthernetInterface.h"
+#include "LED_Bar.h"
 
 
 #ifndef MAX
@@ -22,10 +23,12 @@ DigitalOut blue(LED_BLUE); //blue led
 DigitalOut green(LED_GREEN); // green LED
 AnalogIn T1(PTB2); //  temperature  sensor T1 on A0
 AnalogIn T2(PTB3); // temperature  sensor T2 on A1
+
 float T; // average temperature
 float tempF; //average temperature in Fahrenheit
 float K=3.3*100; // scaling coefficient for calculating
 
+LED_Bar bar(PTB10,PTB11);
 // analog value to temperature
 
 Serial pc(USBTX,USBRX); // print temperature on console (eg. Putty)
@@ -88,6 +91,20 @@ int main()
         green=0; //green=0;
         T=(T1+T1)/2.*K; // average temperature value in Celsius (C)
 
+        
+
+            //lCD code and disply line
+        /*
+        if(T>70) {
+            led.period(2.0f);
+            led.write(0.10f);
+        } else {
+            led.period(2.0f);
+            led.write(0.95f);
+        }
+        */
+
+           
 
         tempF=(9.0*T)/5.0 + 32.0; //average temperature value in fahrenheit (F)
 
@@ -105,6 +122,13 @@ int main()
         else if ((T>=16 && T<18)||(T>22 && T<=24)) blue=1;
         else red=1;
 
+        
+        if(tempF>100){ 
+            bar.setLevel(7);
+        }else{
+            bar.setLevel(2);
+            }
+        
         int response = m2xClient.updateStreamValue(deviceId, streamName, tempF); // Updating Farehnheit temperature logged from the analog sensor to the temperature stream
         printf("Temperature update response code : %d\r\n", response);
         if (response == -1) while (true);
