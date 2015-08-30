@@ -59,7 +59,7 @@ int main()
     while (true) {
 
 
-        /*
+        
                 float x, y, z;
                 acc.getX(&x);
                 acc.getY(&y);
@@ -81,7 +81,7 @@ int main()
                     ret = m2xClient.updateStreamValue(deviceId, streamName, maxTilt);
                     printf("send() returned %d\r\n", ret);
                     wait(1.0);
-                    */
+                    
 
         //pc.printf("LM35 temperature sensor\n");
 
